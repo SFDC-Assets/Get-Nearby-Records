@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <masterLabel>Get Nearby Records</masterLabel>
+    <description>A Lightning Web Component that displays a map of markers that are geographically close to a given geolocation.</description>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__RecordPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <property name="cardTitle" label="Card Title" type="String" default="Get Nearby Records" description="The title to be used at the top of the card." />
+            <property name="fieldApiName" label="API name of the location field of this object" type="String" default="Location__c" description="The API Name of the field in this object that contains the location to center the map." required="true" />
+            <property name="additionalWhereClause" label="Additional WHERE clause predicate" type="String" description="A SOQL WHERE clause expression to append to the SOQL query that finds nearby records; for example, any restrictions that depend on another field in the record." />
+            <property name="initialZoomLevel" label="Initial zoom level" type="Integer" min="1" max="22" default="15" description="The initial zoom level for the map (1-22, defaults to 15)." />
+            <property name="showDataTable" label="Show a table of the nearby locations" type="Boolean" default="false" description="Show a table of the nearby locations, including distance from the center." />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>
