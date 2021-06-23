@@ -14,6 +14,6 @@ sfdx force:package:create \
     --packagetype "Unlocked" \
     --nonamespace \
     --name "Get Nearby Records" \
-    --description "This package contains a Salesforce Lightning Web Component that can retrieve geographically near records." \
+    --description "This package contains a Salesforce Lightning Web Component that can retrieve geographically co-located records." \
     --path "force-app" \
     --targetdevhubusername "$devHubOrgAlias"

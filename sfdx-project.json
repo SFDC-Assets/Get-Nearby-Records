@@ -10,5 +10,9 @@
     ],
     "namespace": "",
     "sfdcLoginUrl": "https://login.salesforce.com",
-    "sourceApiVersion": "52.0"
+    "sourceApiVersion": "52.0",
+    "packageAliases": {
+        "Get Nearby Records": "0Ho2E000000008USAQ",
+        "Get Nearby Records@1.0.0-0": "04t2E000003od7qQAA"
+    }
 }
