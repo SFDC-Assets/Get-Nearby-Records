@@ -39,6 +39,8 @@ export default class GetNearbyRecords extends LightningElement {
 	@track markers = [];
 
 	@track tableData = [];
+	tableRows = 0;
+
 	columns = [
 		{
 			label: 'Record',
@@ -136,7 +138,9 @@ export default class GetNearbyRecords extends LightningElement {
 					icon: 'standard:home'
 				});
 				this.tableData = [];
+				this.tableRows = 0;
 				result.records.forEach((record) => {
+					this.tableRows++;
 					this.markers.push({
 						location: {
 							Latitude: record.latitude,

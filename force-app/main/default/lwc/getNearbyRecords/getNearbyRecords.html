@@ -30,6 +30,16 @@
 					options={mapOptions}
 				></lightning-map>
 			</section>
+			<p class="slds-var-p-horizontal_medium slds-var-p-top_medium">
+				A total of&nbsp;
+				<strong>
+					<lightning-formatted-number value={tableRows}></lightning-formatted-number>
+				</strong>
+				&nbsp;records have been found within&nbsp;
+				<lightning-formatted-number value={distance}></lightning-formatted-number>&nbsp;
+				<lightning-formatted-text value={units}></lightning-formatted-text>
+				:
+			</p>
 			<template if:true={showDataTable}>
 				<section class="slds-var-p-around_medium">
 					<div class="slds-scrollable scroller-size">
