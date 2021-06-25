@@ -26,8 +26,8 @@ There are several options available to configure the component to your liking:
 - **Additional WHERE clause predicate**: You can optionally set this to a SOQL WHERE clause expression (without the `WHERE`) to further refine the search for nearby records. For example, specifying `CreatedDate = LAST_90_DAYS` in this field will limit the results to records that were created in the last 90 days. The SOQL expression is generated internally by surrounding whatever you put in this field in parentheses and adding it onto the WHERE clause expression in the component.
 - **Initial zoom level** The initial zoom level of the map. It must be between 1 and 22, and defaults to 15.
 - **Draw a circle around center marker**: Check this box if you want the component to draw a circle on the map around the marker placed at the coordinates of the current record to show the radius of inclusion of the nearby records.
--**Circle color** The color of the circle to be drawn if applicable. Defaults to green, "#00FF00".
--**Show a table of the nearby locations**: If checked, the component will show a table of the nearby records containing links to those records and the distance each one is from the location specified in the current record.
+- **Circle color** The color of the circle to be drawn if applicable. Defaults to green, "#00FF00".
+- **Show a table of the nearby locations**: If checked, the component will show a table of the nearby records containing links to those records and the distance each one is from the location specified in the current record.
 
 ## How to Deploy This Package to Your Org
 
