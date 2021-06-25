@@ -16,6 +16,8 @@ export default class GetNearbyRecords extends LightningElement {
 	@api showDataTable;
 	@api initialZoomLevel;
 	@api additionalWhereClause;
+	@api drawCircle;
+	@api circleColor = '#00FF00';
 
 	unitOptions = [
 		{ value: 'mi', label: 'miles' },
@@ -31,6 +33,8 @@ export default class GetNearbyRecords extends LightningElement {
 	longitude;
 	distance = '0.5';
 	units = 'mi';
+
+	center;
 
 	@track markers = [];
 
@@ -100,17 +104,37 @@ export default class GetNearbyRecords extends LightningElement {
 					})
 				);
 			} else {
-				this.markers = [
-					{
-						location: {
-							Latitude: this.latitude,
-							Longitude: this.longitude
-						},
-						value: this.recordId,
-						title: 'This record',
-						icon: 'standard:home'
+				this.center = {
+					location: {
+						Latitude: this.latitude,
+						Longitude: this.longitude
 					}
-				];
+				};
+				this.markers = [];
+				if (this.drawCircle) {
+					this.markers.push({
+						location: {
+							Latitude: this.latitude - 0.0000001,
+							Longitude: this.longitude - 0.0000001
+						},
+						type: 'Circle',
+						radius: this.units === 'mi' ? this.distance * 1609.34 : this.distance * 1000.0,
+						strokeColor: this.circleColor,
+						strokeOpacity: 0.5,
+						strokeWeight: 3,
+						fillColor: this.circleColor,
+						fillOpacity: 0.1
+					});
+				}
+				this.markers.push({
+					location: {
+						Latitude: this.latitude,
+						Longitude: this.longitude
+					},
+					value: this.recordId,
+					title: 'This record',
+					icon: 'standard:home'
+				});
 				this.tableData = [];
 				result.records.forEach((record) => {
 					this.markers.push({

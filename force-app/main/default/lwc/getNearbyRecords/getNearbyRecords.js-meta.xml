@@ -13,6 +13,8 @@
             <property name="fieldApiName" label="API name of the location field of this object" type="String" default="Location__c" description="The API Name of the field in this object that contains the location to center the map." required="true" />
             <property name="additionalWhereClause" label="Additional WHERE clause predicate" type="String" description="A SOQL WHERE clause expression to append to the SOQL query that finds nearby records; for example, any restrictions that depend on another field in the record." />
             <property name="initialZoomLevel" label="Initial zoom level" type="Integer" min="1" max="22" default="15" description="The initial zoom level for the map (1-22, defaults to 15)." />
+            <property name="drawCircle" label="Draw a circle around center marker" type="Boolean" default="false" description="If checked, draws a circle around the latitude and longitude coordinates of this record." />
+            <property name="circleColor" label="Circle color" type="String" default="#00FF00" placeholder="#00FF00" description="The color of the circle drawn." />
             <property name="showDataTable" label="Show a table of the nearby locations" type="Boolean" default="false" description="Show a table of the nearby locations, including distance from the center." />
         </targetConfig>
     </targetConfigs>

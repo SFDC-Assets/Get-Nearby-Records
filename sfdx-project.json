@@ -4,8 +4,8 @@
             "path": "force-app",
             "default": true,
             "package": "Get Nearby Records",
-            "versionName": "Version 1.0.0",
-            "versionNumber": "1.0.0.0"
+            "versionName": "Version 1.0.1",
+            "versionNumber": "1.0.1.0"
         }
     ],
     "namespace": "",
@@ -13,6 +13,7 @@
     "sourceApiVersion": "52.0",
     "packageAliases": {
         "Get Nearby Records": "0Ho2E000000008USAQ",
-        "Get Nearby Records@1.0.0-0": "04t2E000003od7qQAA"
+        "Get Nearby Records@1.0.0-0": "04t2E000003od7qQAA",
+        "Get Nearby Records@1.0.1-0": "04t2E000003od8eQAA"
     }
 }
