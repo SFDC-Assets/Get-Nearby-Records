@@ -8,12 +8,16 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import getRecordLocation from '@salesforce/apex/GetNearbyRecords.getRecordLocation';
 import getNearbyRecordsByLocation from '@salesforce/apex/GetNearbyRecords.getNearbyRecordsByLocation';
 
+const METERS_PER_MILE = 1609.34;
+const METERS_PER_KILOMETER = 1000.0;
+
 export default class GetNearbyRecords extends LightningElement {
 	@api recordId;
 	@api objectApiName;
 	@api fieldApiName;
 	@api cardTitle;
 	@api showDataTable;
+	@api initialUnits = 'mi';
 	@api initialZoomLevel;
 	@api additionalWhereClause;
 	@api drawCircle;
@@ -32,7 +36,7 @@ export default class GetNearbyRecords extends LightningElement {
 	latitude;
 	longitude;
 	distance = '0.5';
-	units = 'mi';
+	units;
 
 	center;
 
@@ -63,6 +67,10 @@ export default class GetNearbyRecords extends LightningElement {
 			initialWidth: 150
 		}
 	];
+
+	connectedCallback() {
+		this.units = this.initialUnits;
+	}
 
 	@wire(getRecordLocation, { objectApiName: '$objectApiName', fieldApiName: '$fieldApiName', recordId: '$recordId' })
 	getRecords({ error, data }) {
@@ -120,7 +128,7 @@ export default class GetNearbyRecords extends LightningElement {
 							Longitude: this.longitude - 0.0000001
 						},
 						type: 'Circle',
-						radius: this.units === 'mi' ? this.distance * 1609.34 : this.distance * 1000.0,
+						radius: this.units === 'mi' ? this.distance * METERS_PER_MILE : this.distance * METERS_PER_KILOMETER,
 						strokeColor: this.circleColor,
 						strokeOpacity: 0.5,
 						strokeWeight: 3,
