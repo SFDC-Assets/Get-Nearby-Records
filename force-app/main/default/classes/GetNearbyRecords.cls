@@ -82,9 +82,6 @@ public without sharing class GetNearbyRecords {
         String nameField = getNameField(objectApiName);
         Location fromLocation = Location.newInstance(latitude, longitude);
 
-        result.error = false;
-        result.errorMessage = null;
-
         try {
             List<SObject> records = Database.query(
                 'SELECT ' + nameField + ', ' + fieldApiName +
@@ -93,7 +90,8 @@ public without sharing class GetNearbyRecords {
                     ' AND Id != \'' + recordId + '\')' +
                     (additionalWhereClause != null ? ' AND (' + additionalWhereClause + ')' : '') +
                 ' ORDER BY DISTANCE(' + fieldApiName + ', GEOLOCATION(' + latitude + ',' + longitude + '), \'' + units + '\') ASC' +
-                ' LIMIT 99');
+                ' LIMIT 99'
+            );
             List<Info> infoRecords = new List<Info>();
             for (SObject record : records) {
                 Info infoRecord = new Info();
@@ -104,6 +102,8 @@ public without sharing class GetNearbyRecords {
                 infoRecord.distance = fromLocation.getDistance((Location) record.get(fieldApiName), units);
                 infoRecords.add(infoRecord);
             }
+            result.error = false;
+            result.errorMessage = null;    
             result.records = infoRecords;
         } catch (Exception e) {
             result.error = true;

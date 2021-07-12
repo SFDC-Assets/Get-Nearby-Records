@@ -4,8 +4,8 @@
             "path": "force-app",
             "default": true,
             "package": "Get Nearby Records",
-            "versionName": "Version 1.0.3",
-            "versionNumber": "1.0.3.0"
+            "versionName": "Version 1.0.4",
+            "versionNumber": "1.0.4.0"
         }
     ],
     "namespace": "",
