@@ -11,6 +11,8 @@ import getNearbyRecordsByLocation from '@salesforce/apex/GetNearbyRecords.getNea
 const METERS_PER_MILE = 1609.34;
 const METERS_PER_KILOMETER = 1000.0;
 
+const NO_GEOLOCATION_FIELD = 'NO_GEOLOCATION_FIELD';
+
 export default class GetNearbyRecords extends LightningElement {
 	@api recordId;
 	@api objectApiName;
@@ -33,6 +35,7 @@ export default class GetNearbyRecords extends LightningElement {
 	};
 
 	recordHasLocation = false;
+	hasGeolocationField = true;
 	latitude;
 	longitude;
 	distance = '0.5';
@@ -70,26 +73,16 @@ export default class GetNearbyRecords extends LightningElement {
 
 	connectedCallback() {
 		this.units = this.initialUnits;
+		this.hasGeolocationField = this.fieldApiName !== NO_GEOLOCATION_FIELD;
 	}
 
 	@wire(getRecordLocation, { objectApiName: '$objectApiName', fieldApiName: '$fieldApiName', recordId: '$recordId' })
 	getRecords({ error, data }) {
-		if (data) {
-			if (data.error) {
-				this.dispatchEvent(
-					new ShowToastEvent({
-						title: 'Error occurred trying to retrieve coordinates from this record',
-						message: JSON.stringify(data.errorMessage),
-						variant: 'error',
-						mode: 'sticky'
-					})
-				);
-			} else {
-				this.recordHasLocation = true;
-				this.latitude = data.latitude;
-				this.longitude = data.longitude;
-				this.drawMap();
-			}
+		if (data && !data.error) {
+			this.recordHasLocation = true;
+			this.latitude = data.latitude;
+			this.longitude = data.longitude;
+			this.drawMap();
 		}
 	}
 
@@ -104,7 +97,7 @@ export default class GetNearbyRecords extends LightningElement {
 			latitude: this.latitude,
 			longitude: this.longitude
 		}).then((result) => {
-			if (result.error) {
+			if (result.error && this.hasGeolocationField) {
 				this.dispatchEvent(
 					new ShowToastEvent({
 						title: 'Error occurred trying to retrieve nearby records',
