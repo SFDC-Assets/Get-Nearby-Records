@@ -3,7 +3,7 @@
 //  This code is provided AS IS, with no warranty or guarantee of suitability for use.
 //  Contact: john.meyer@salesforce.com
 
-global without sharing class GetNearbyRecords {
+public without sharing class GetNearbyRecords {
 
     public class Info {
         @AuraEnabled public Id recordId;
