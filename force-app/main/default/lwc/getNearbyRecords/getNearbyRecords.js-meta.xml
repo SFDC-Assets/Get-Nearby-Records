@@ -12,6 +12,7 @@
             <property name="cardTitle" label="Card Title" type="String" default="Get Nearby Records" description="The title to be used at the top of the card." />
             <property name="fieldApiName" label="The location field of this object to use" type="String" datasource="apex://GetNearbyRecordsFindGeolocationFields" description="The field in this object that contains the location on which to center the map." required="true" />
             <property name="additionalWhereClause" label="Additional WHERE clause predicate" type="String" description="A SOQL WHERE clause expression to append to the SOQL query that finds nearby records; for example, any restrictions that depend on another field in the record." />
+            <property name="initialDistance" label="Initial distance" type="String" default="1.0" description="The initial distance" />
             <property name="initialUnits" label="Initial units" type="String" datasource="mi,km" default="mi" description="The initial selection for units (miles or kilometers)" />
             <property name="initialZoomLevel" label="Initial zoom level" type="Integer" min="1" max="22" default="15" description="The initial zoom level for the map (1-22, defaults to 15)." />
             <property name="drawCircle" label="Draw a circle around center marker" type="Boolean" default="false" description="If checked, draws a circle around the center marker of this record." />

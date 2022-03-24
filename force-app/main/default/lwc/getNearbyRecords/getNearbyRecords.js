@@ -19,6 +19,7 @@ export default class GetNearbyRecords extends LightningElement {
 	@api fieldApiName;
 	@api cardTitle;
 	@api showDataTable;
+	@api initialDistance = '1.0';
 	@api initialUnits = 'mi';
 	@api initialZoomLevel;
 	@api additionalWhereClause;
@@ -38,7 +39,7 @@ export default class GetNearbyRecords extends LightningElement {
 	hasGeolocationField = true;
 	latitude;
 	longitude;
-	distance = '0.5';
+	distance;
 	units;
 
 	center;
@@ -72,6 +73,7 @@ export default class GetNearbyRecords extends LightningElement {
 	];
 
 	connectedCallback() {
+		this.distance = parseFloat(this.initialDistance);
 		this.units = this.initialUnits;
 		this.hasGeolocationField = this.fieldApiName !== NO_GEOLOCATION_FIELD;
 	}
