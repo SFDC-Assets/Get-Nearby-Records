@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>54.0</apiVersion>
-    <masterLabel>Get Nearby Records</masterLabel>
-    <description>A Lightning Web Component that displays a map of markers that are geographically close to a given geolocation.</description>
+    <masterLabel>Get Nearby Related Records</masterLabel>
+    <description>A Lightning Web Component that displays a map of markers in records of another object that are geographically close to a given geolocation in this record.</description>
     <isExposed>true</isExposed>
     <targets>
         <target>lightning__RecordPage</target>
     </targets>
     <targetConfigs>
         <targetConfig targets="lightning__RecordPage">
-            <property name="cardTitle" label="Card Title" type="String" default="Nearby Records" description="The title to be used at the top of the card." />
+            <property name="cardTitle" label="Card Title" type="String" default="Nearby Related Records" description="The title to be used at the top of the card." />
             <property name="fieldApiName" label="The location field of this object to use" type="String" datasource="apex://GetNearbyRecordsFindGeolocationFields" description="The field in this object that contains the location on which to center the map." required="true" />
-            <property name="additionalWhereClause" label="Additional WHERE clause predicate" type="String" description="A SOQL WHERE clause expression to append to the SOQL query that finds nearby records; for example, any restrictions that depend on another field in the record." />
+            <property name="relatedObjectApiName" label="Related object API name" type="String" description="The API name of a related object to look for geographically near records" required="true" />
+            <property name="relatedObjectFieldApiName" label="Related object location field API name" type="String" description="The API name of the location field in the related object to use" required="true" />
+            <property name="additionalWhereClause" label="Additional WHERE clause predicate" type="String" description="A SOQL WHERE clause expression to append to the SOQL query that finds nearby related records; for example, any restrictions that depend on another field in the record." />
             <property name="initialDistance" label="Initial distance" type="String" default="1.0" description="The initial distance" />
             <property name="initialUnits" label="Initial units" type="String" datasource="mi,km" default="mi" description="The initial selection for units (miles or kilometers)" />
             <property name="initialZoomLevel" label="Initial zoom level" type="Integer" min="1" max="22" default="15" description="The initial zoom level for the map (1-22, defaults to 15)." />

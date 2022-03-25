@@ -17,16 +17,18 @@ const METERS_PER_KILOMETER = 1000.0;
 
 const NO_GEOLOCATION_FIELD = 'NO_GEOLOCATION_FIELD';
 
-export default class GetNearbyRecords extends LightningElement {
+export default class GetNearbyRelatedRecords extends LightningElement {
 	@api recordId;
 	@api objectApiName;
 	@api fieldApiName;
+    @api relatedObjectApiName;
+    @api relatedObjectFieldApiName;
 	@api cardTitle;
 	@api showDataTable;
 	@api initialDistance = '1.0';
 	@api initialUnits = 'mi';
 	@api initialZoomLevel;
-	@api markerLabel = 'This record';
+    @api markerLabel = 'This record';
 	@api additionalWhereClause;
 	@api drawCircle;
 	@api circleColor = '#00FF00';
@@ -96,8 +98,8 @@ export default class GetNearbyRecords extends LightningElement {
 	drawMap() {
 		getNearbyRecordsByLocation({
 			recordId: this.recordId,
-			objectApiName: this.objectApiName,
-			fieldApiName: this.fieldApiName,
+			objectApiName: this.relatedObjectApiName,
+			fieldApiName: this.relatedObjectFieldApiName,
 			additionalWhereClause: this.additionalWhereClause,
 			distance: this.distance,
 			units: this.units,
@@ -165,7 +167,7 @@ export default class GetNearbyRecords extends LightningElement {
 						recordId: record.recordId,
 						recordName: record.recordName,
 						distance: `${record.distance.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]} ${this.units}`,
-						link: `/lightning/r/${this.objectApiName}/${record.recordId}/view`
+						link: `/lightning/r/${this.relatedObjectApiName}/${record.recordId}/view`
 					});
 				});
 			}

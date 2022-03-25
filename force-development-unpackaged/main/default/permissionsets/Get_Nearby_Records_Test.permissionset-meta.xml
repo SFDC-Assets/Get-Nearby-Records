@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <applicationVisibilities>
+        <application>Get_Nearby_Records</application>
+        <visible>true</visible>
+    </applicationVisibilities>
+    <description>Unpackaged permission set used for testing the Get Nearby Records Lightning Web Component.</description>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.Get_Nearby_Records_Location__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Get Nearby Records Test</label>
+</PermissionSet>

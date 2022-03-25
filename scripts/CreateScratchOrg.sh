@@ -30,7 +30,8 @@ echo "*** Generating password for your user ..."
 sfdx force:user:password:generate --targetusername "$orgAlias" --loglevel error
 echo "*** Setting time zone for your user ..."
 sfdx force:data:record:update --sobjecttype User --where "Name='User User'" --values "TimeZoneSidKey='America/New_York'" --loglevel error
-echo "*** Assigning permission set to your user ..."
+echo "*** Assigning permission sets to your user ..."
 sfdx force:user:permset:assign --permsetname Get_Nearby_Records --loglevel error
+sfdx force:user:permset:assign --permsetname Get_Nearby_Records_Test --loglevel error
 echo "*** Creating sample data ..."
 sfdx force:apex:execute --apexcodefile scripts/apex/SampleData.apex --loglevel error

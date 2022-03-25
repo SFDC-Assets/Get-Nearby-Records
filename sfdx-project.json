@@ -4,8 +4,17 @@
             "path": "force-app",
             "default": true,
             "package": "Get Nearby Records",
-            "versionName": "Version 1.0.7",
-            "versionNumber": "1.0.7.0"
+            "versionName": "Version 1.2.0",
+            "versionNumber": "1.2.0.0",
+            "postInstallUrl": "https://github.com/SFDC-Assets/Get-Nearby-Records",
+            "releaseNotesUrl": "https://github.com/SFDC-Assets/Get-Nearby-Records",
+            "unpackagedMetadata": {
+                "path": "force-development-unpackaged"
+            }
+        },
+        {
+            "path": "force-development-unpackaged",
+            "default": false
         }
     ],
     "namespace": "",
@@ -18,6 +27,8 @@
         "Get Nearby Records@1.0.2-0": "04t2E000003od8yQAA",
         "Get Nearby Records@1.0.3-0": "04t2E000003od93QAA",
         "Get Nearby Records@1.0.5-0": "04t2E000003ZTwZQAW",
-        "Get Nearby Records@1.0.6-0": "04t2E000001fErTQAU"
+        "Get Nearby Records@1.0.6-0": "04t2E000001fErTQAU",
+        "Get Nearby Records@1.1.0-0": "04t2E000001fErYQAU",
+        "Get Nearby Records@1.2.0-0": "04t2E000001fErdQAE"
     }
 }

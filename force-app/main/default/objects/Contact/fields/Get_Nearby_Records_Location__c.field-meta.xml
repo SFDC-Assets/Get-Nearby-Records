@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Location__c</fullName>
-    <description>A geolocation field installed by the Geolocation Utilities package, needed for Apex coverage tests.</description>
+    <fullName>Get_Nearby_Records_Location__c</fullName>
+    <description>A geolocation field installed by the Get Nearby Records package, needed for Apex coverage tests.</description>
     <displayLocationInDecimal>true</displayLocationInDecimal>
     <externalId>false</externalId>
     <label>Location</label>

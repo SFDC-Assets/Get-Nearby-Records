@@ -1,0 +1,289 @@
+<template>
+	<lightning-card title={cardTitle} icon-name="standard:location">
+		<div class="slds-var-p-horizontal_medium">
+			<template if:true={hasGeolocationField}>
+				<template if:true={recordHasLocation}>
+					<lightning-layout horizontal-align="space" class="slds-var-p-horizontal_medium slds-var-p-bottom_medium">
+						<lightning-layout-item size="4" padding="horizontal-small">
+							<lightning-input
+								type="number"
+								label="Distance:"
+								value={distance}
+								step=".01"
+								onchange={handleChangeDistance}
+							></lightning-input>
+						</lightning-layout-item>
+						<lightning-layout-item size="4" padding="horizontal-small">
+							<lightning-radio-group
+								type="button"
+								label="Units:"
+								options={unitOptions}
+								value={units}
+								onchange={handleChangeUnits}
+							></lightning-radio-group>
+						</lightning-layout-item>
+					</lightning-layout>
+					<section class="slds-var-p-horizontal_medium">
+						<lightning-map
+							map-markers={markers}
+							center={center}
+							zoom-level={initialZoomLevel}
+							list-view="hidden"
+							options={mapOptions}
+						></lightning-map>
+					</section>
+					<template if:true={showDataTable}>
+						<p class="slds-var-p-horizontal_medium slds-var-p-top_medium">
+							A total of&nbsp;
+							<strong>
+								<lightning-formatted-number value={tableRows}></lightning-formatted-number>
+							</strong>
+							&nbsp;records have been found within&nbsp;
+							<lightning-formatted-number value={distance}></lightning-formatted-number>&nbsp;
+							<lightning-formatted-text value={units}></lightning-formatted-text>
+							:
+						</p>
+						<section class="slds-var-p-around_medium">
+							<div class="slds-scrollable scroller-size">
+								<lightning-datatable
+									data={tableData}
+									columns={columns}
+									key-field="recordId"
+									hide-checkbox-column="true"
+								>
+								</lightning-datatable>
+							</div>
+						</section>
+					</template>
+				</template>
+				<template if:false={recordHasLocation}>
+					<div class="slds-var-p-vertical_medium slds-illustration slds-illustration_small">
+						<!-- prettier-ignore -->
+						<svg class="slds-illustration__svg" viewBox="0 0 396 245" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+					<defs>
+					<rect x="77" y="47" width="20" height="28"></rect>
+					</defs>
+					<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+					<g transform="translate(-114.000000, -78.000000)">
+					<g>
+					<g transform="translate(124.000000, 154.000000)" class="slds-illustration__stroke-secondary" stroke-linecap="round" stroke-width="3">
+					<path vector-effect="non-scaling-stroke" d="M44,17.5 L63,17.5 C62.2789714,12.0723971 64.081543,7.53186978 68.4077148,3.87841797 C73.3754883,-0.195556641 79.2734375,0.717773438 82.440918,2.12353516 C85.6083984,3.52929687 87.9606934,5.46069336 89.5913086,9.10524041 C90.2822266,10.6397351 90.7517904,11.9379883 91,13"></path>
+					<path vector-effect="non-scaling-stroke" d="M83,20.5 C84.0558268,16.8461914 86.2227376,14.4572754 89.5007324,13.333252 C94.4177246,11.6472168 99.0800781,13.8925781 100.942383,16.1518555 C102.804687,18.4111328 103.39502,20.2260742 103.746582,22.1201172 C103.980957,23.3828125 104.06543,24.8427734 104,26.5 C108.141764,26.3313802 110.918945,27.1647135 112.331543,29 C114.040039,31.1936035 114.215332,33.817627 113.593018,35.75 C112.970703,37.682373 110.894531,40.5 107,40.5 L28,40.5"></path>
+					<path vector-effect="non-scaling-stroke" d="M18,27.5 L83.0004985,27.5"></path>
+					<path vector-effect="non-scaling-stroke" d="M0,27.5 L8,27.5"></path>
+					</g>
+					<g transform="translate(339.000000, 107.000000)" class="slds-illustration__stroke-secondary" stroke-linecap="round" stroke-width="3">
+					<path vector-effect="non-scaling-stroke" d="M44,17.5 L63,17.5 C62.2789714,12.0723971 64.081543,7.53186978 68.4077148,3.87841797 C73.3754883,-0.195556641 79.2734375,0.717773438 82.440918,2.12353516 C85.6083984,3.52929687 87.9606934,5.46069336 89.5913086,9.10524041 C90.2822266,10.6397351 90.7517904,11.9379883 91,13"></path>
+					<path vector-effect="non-scaling-stroke" d="M83,20.5 C84.0558268,16.8461914 86.2227376,14.4572754 89.5007324,13.333252 C94.4177246,11.6472168 99.0800781,13.8925781 100.942383,16.1518555 C102.804687,18.4111328 103.39502,20.2260742 103.746582,22.1201172 C103.980957,23.3828125 104.06543,24.8427734 104,26.5 C108.141764,26.3313802 110.918945,27.1647135 112.331543,29 C114.040039,31.1936035 114.215332,33.817627 113.593018,35.75 C112.970703,37.682373 110.894531,40.5 107,40.5 L28,40.5"></path>
+					<path vector-effect="non-scaling-stroke" d="M18,27.5 L83.0004985,27.5"></path>
+					<path vector-effect="non-scaling-stroke" d="M0,27.5 L8,27.5"></path>
+					</g>
+					<g transform="translate(151.000000, 296.500000)">
+					<g transform="translate(10.339768, 0.275260)"></g>
+					<path vector-effect="non-scaling-stroke" d="M140.962142,26.4644491 C138.225735,20.0143094 131.944776,15.5029106 124.633892,15.5029106 C122.619663,15.5029106 120.683612,15.8453541 118.878328,16.4764392 C115.451481,11.1704266 109.567406,7.66985447 102.883789,7.66985447 C96.4912675,7.66985447 90.8301585,10.8721423 87.3508511,15.7935668 C85.9589956,14.968161 84.3423157,14.4956341 82.6177606,14.4956341 C81.1083143,14.4956341 79.6815102,14.8576334 78.4157672,15.5014039 C74.9975328,6.58722215 66.5098304,0.275259875 56.5804557,0.275259875 C47.4632836,0.275259875 39.5615782,5.59684366 35.6837305,13.3681823 C33.3912034,12.266973 30.8314865,11.6515593 28.1312741,11.6515593 C19.4373504,11.6515593 12.1998844,18.0312998 10.6476214,26.4644491 L140.962142,26.4644491 Z"
+					class="slds-illustration__fill-secondary"></path>
+					<path vector-effect="non-scaling-stroke" d="M0,25 L130,25" class="slds-illustration__stroke-secondary" stroke-width="3" stroke-linecap="round"></path>
+					</g>
+					<g transform="translate(320.000000, 281.000000)">
+					<g transform="translate(0.293436, 0.054545)">
+					<path vector-effect="non-scaling-stroke" d="M165.428708,41.9454545 L0.0995432562,41.9454545 C0.0336614956,41.2089487 0,40.4630069 0,39.7090909 C0,26.2132599 10.7866531,15.2727273 24.0926641,15.2727273 C27.7492016,15.2727273 31.215485,16.0989227 34.3199502,17.5772977 C39.5712028,7.14424616 50.271428,0 62.6175975,0 C76.0636257,0 87.5573893,8.47383452 92.1862485,20.441159 C93.9002755,19.5768947 95.8324059,19.0909091 97.8764479,19.0909091 C100.211783,19.0909091 102.401037,19.7252784 104.285841,20.8333889 C108.997403,14.2263569 116.663488,9.92727273 125.320028,9.92727273 C138.043441,9.92727273 148.627152,19.2146805 150.834755,31.4671412 C151.487388,31.3631046 152.156394,31.3090909 152.837838,31.3090909 C159.117096,31.3090909 164.340238,35.8953699 165.428708,41.9454545 Z"
+					class="slds-illustration__fill-secondary"></path>
+					<path vector-effect="non-scaling-stroke" d="M32.7065637,40.4454545 L173.706564,40.4454545" class="slds-illustration__stroke-secondary" stroke-width="3" stroke-linecap="round"></path>
+					</g>
+					</g>
+					<g transform="translate(116.000000, 80.000000)">
+					<g transform="translate(106.000000, 4.000000)">
+					<g>
+					<use class="slds-illustration__fill-secondary" fill-rule="evenodd" xlink:href="#path-1"></use>
+					<rect class="slds-illustration__stroke-primary" stroke-width="3" x="78.5" y="48.5" width="17" height="25"></rect>
+					</g>
+					<rect class="slds-illustration__fill-secondary" x="72" y="30" width="30" height="22" rx="2"></rect>
+					<circle vector-effect="non-scaling-stroke" class="slds-illustration__fill-secondary" cx="87" cy="150" r="87"></circle>
+					<circle vector-effect="non-scaling-stroke" class="slds-illustration__stroke-secondary" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" cx="87.5" cy="23.5" r="23.5"></circle>
+					</g>
+					<g transform="translate(112.000000, 35.000000)" fill="#FFFFFF">
+					<circle vector-effect="non-scaling-stroke" cx="81" cy="119" r="73"></circle>
+					<rect x="67" y="0" width="28" height="4"></rect>
+					<path vector-effect="non-scaling-stroke" d="M0.180175781,90.2270508 C0.778808594,89.5117187 11.3666992,64.2470703 30.4042969,52.2089844 C49.4418945,40.1708984 64.3725586,35.2084961 85.1640625,36.3398437 C105.955566,37.4711914 122.305176,44.8969727 133.487793,53.7832031 C144.67041,62.6694336 156.910645,77.7836914 163.28125,93.7817383 C167.52832,104.447103 164.678548,96.9777018 154.731934,71.3735352 L134.561523,50.390625 L106.423828,35.831543 L83.5615234,32.3847656 L61.4130859,34.121582 L40.7431641,41.5869141 L21.2519531,54.597168 L6.90820313,73.0634766 C2.02376302,84.9827474 -0.21891276,90.7039388 0.180175781,90.2270508 Z"></path>
+					</g>
+					<g class="slds-illustration__stroke-primary" stroke-width="3">
+					<path vector-effect="non-scaling-stroke" d="M178.5,49.7801039 C170.984351,44.9862617 166,36.5752096 166,27 C166,12.0883118 178.088312,0 193,0 C207.911688,0 220,12.0883118 220,27 C220,36.5752096 215.015649,44.9862617 207.5,49.7801039 L207.5,55.5 C207.5,56.0522847 207.052285,56.5 206.5,56.5 L179.5,56.5 C178.947715,56.5 178.5,56.0522847 178.5,55.5 L178.5,49.7801039 Z"></path>
+					<path vector-effect="non-scaling-stroke" d="M178.5,40.7750367 C175.091592,37.1883928 173,32.3384551 173,27 C173,15.954305 181.954305,7 193,7 C204.045695,7 213,15.954305 213,27 C213,32.3384551 210.908408,37.1883928 207.5,40.7750367 L207.5,35.5 C207.5,34.9477153 207.052285,34.5 206.5,34.5 L179.5,34.5 C178.947715,34.5 178.5,34.9477153 178.5,35.5 L178.5,40.7750367 Z"></path>
+					<path vector-effect="non-scaling-stroke" d="M179.5,34.5 L206.5,34.5 C207.052285,34.5 207.5,34.9477153 207.5,35.5 L207.5,55.5 C207.5,56.0522847 207.052285,56.5 206.5,56.5 L179.5,56.5 C178.947715,56.5 178.5,56.0522847 178.5,55.5 L178.5,35.5 C178.5,34.9477153 178.947715,34.5 179.5,34.5 Z"
+					stroke-linecap="round" stroke-linejoin="round"></path>
+					<path vector-effect="non-scaling-stroke" d="M184.5,56.5 L184.5,67.356737 C187.353249,67.1189178 190.206393,67 193.059326,67 C195.900065,67 198.713659,67.1179036 201.5,67.3537468 L201.5,56.5 L184.5,56.5 Z"></path>
+					<path vector-effect="non-scaling-stroke" d="M27,241.5 L392,241.5" stroke-linecap="round"></path>
+					<path vector-effect="non-scaling-stroke" d="M0,241.5 L20,241.5" stroke-linecap="round"></path>
+					<circle vector-effect="non-scaling-stroke" cx="193" cy="154" r="87"></circle>
+					<circle vector-effect="non-scaling-stroke" cx="193" cy="154" r="73"></circle>
+					</g>
+					</g>
+					<g transform="translate(252.000000, 178.000000)">
+					<g transform="translate(2.000000, 1.000000)">
+					<circle vector-effect="non-scaling-stroke" class="slds-illustration__stroke-secondary" stroke-width="6" cx="55" cy="55" r="41"></circle>
+					<polygon vector-effect="non-scaling-stroke" class="slds-illustration__fill-secondary" points="55 0 62 16 48 16"></polygon>
+					<polygon vector-effect="non-scaling-stroke" class="slds-illustration__fill-secondary" transform="translate(55.000000, 102.000000) scale(1, -1) translate(-55.000000, -102.000000) " points="55 94 62 110 48 110"></polygon>
+					<polygon vector-effect="non-scaling-stroke" class="slds-illustration__fill-secondary" transform="translate(102.000000, 55.000000) scale(1, -1) rotate(90.000000) translate(-102.000000, -55.000000) " points="102 47 109 63 95 63"></polygon>
+					<polygon vector-effect="non-scaling-stroke" class="slds-illustration__fill-secondary" transform="translate(8.000000, 55.000000) scale(-1, -1) rotate(90.000000) translate(-8.000000, -55.000000) " points="8 47 15 63 1 63"></polygon>
+					<polygon vector-effect="non-scaling-stroke" class="slds-illustration__fill-secondary" transform="translate(78.371087, 79.079086) scale(1, -1) rotate(45.000000) translate(-78.371087, -79.079086) " points="78.3710872 47.4827561 96.4223693 110.675417 60.3198052 110.675417"></polygon>
+					</g>
+					<g class="slds-illustration__fill-primary">
+					<polygon vector-effect="non-scaling-stroke" transform="translate(35.687128, 35.395128) scale(-1, 1) rotate(45.000000) translate(-35.687128, -35.395128) " points="35.6871284 3.79879726 53.7384105 66.9914578 17.6358464 66.9914578"></polygon>
+					<ellipse cx="58" cy="58.0018766" rx="9" ry="9.00187656"></ellipse>
+					</g>
+					<g transform="translate(49.000000, 49.000000)" stroke="#FFFFFF" stroke-width="3">
+					<ellipse cx="9" cy="9.00187656" rx="9" ry="9.00187656"></ellipse>
+					</g>
+					</g>
+					<g transform="translate(436.500000, 259.500000)">
+					<g class="slds-illustration__fill-secondary">
+					<path vector-effect="non-scaling-stroke" d="M18.9209988,1.95433401 L33.259296,51.443436 C33.5666778,52.5043744 32.9557995,53.613617 31.8948612,53.9209988 C31.7139843,53.9734036 31.5266126,54 31.3382972,54 L2.6617028,54 C1.5571333,54 0.661702805,53.1045695 0.661702805,52 C0.661702805,51.8116846 0.688299176,51.6243129 0.74070397,51.443436 L15.0790012,1.95433401 C15.386383,0.893395645 16.4956256,0.282517358 17.556564,0.589899164 C18.2152102,0.780726338 18.7301717,1.29568777 18.9209988,1.95433401 Z"></path>
+					</g>
+					<g class="slds-illustration__stroke-primary" stroke-linecap="round" stroke-width="3">
+					<polygon vector-effect="non-scaling-stroke" stroke-linejoin="round" points="17 0.323943662 34 54 -1.81721305e-12 54"></polygon>
+					<path vector-effect="non-scaling-stroke" d="M17,4.6953125 C17,43.0456294 17,62.6471919 17,63.5 C17,62.6471919 17,43.0456294 17,4.6953125 Z"></path>
+					<path vector-effect="non-scaling-stroke" d="M17,29.3239437 C22.3333333,35.7851611 25,39.1184944 25,39.3239437 C25,39.1184944 22.3333333,35.7851611 17,29.3239437 Z" stroke-linejoin="round" transform="translate(21.000000, 34.323944) scale(-1, 1) translate(-21.000000, -34.323944) "></path>
+					</g>
+					</g>
+					<g transform="translate(393.000000, 226.500000)">
+					<g transform="translate(1.000000, 0.000000)" class="slds-illustration__fill-secondary">
+					<path vector-effect="non-scaling-stroke" d="M25.6478873,0 L50.879042,84.4273253 C51.1953215,85.4856452 50.5937789,86.5999782 49.535459,86.9162577 C49.3496374,86.9717906 49.1567264,87 48.9627843,87 L2.33299037,87 C1.22842087,87 0.332990367,86.1045695 0.332990367,85 C0.332990367,84.8060578 0.361199757,84.6131469 0.416732643,84.4273253 L25.6478873,0 Z"></path>
+					</g>
+					<g class="slds-illustration__stroke-primary" stroke-linecap="round" stroke-width="3">
+					<polygon vector-effect="non-scaling-stroke" stroke-linejoin="round" points="26.5 0 52.5 87 0.5 87"></polygon>
+					<path vector-effect="non-scaling-stroke" d="M26.5,3.58642578 C26.5,64.0261034 26.5,94.9972948 26.5,96.5 C26.5,94.9972948 26.5,64.0261034 26.5,3.58642578 Z"></path>
+					<path vector-effect="non-scaling-stroke" d="M15.6478873,42 C22.9812207,49.078692 26.6478873,52.7453587 26.6478873,53 C26.6478873,52.7453587 22.9812207,49.078692 15.6478873,42 Z" stroke-linejoin="round"></path>
+					<path vector-effect="non-scaling-stroke" d="M27.6478873,68 C36.9812207,57.078692 41.6478873,51.7453587 41.6478873,52 C41.6478873,51.7453587 36.9812207,57.078692 27.6478873,68 Z" stroke-linejoin="round"></path>
+					</g>
+					</g>
+					<g transform="translate(182.500000, 259.500000)">
+					<g class="slds-illustration__fill-secondary">
+					<path vector-effect="non-scaling-stroke" d="M18.9209988,1.95433401 L33.259296,51.443436 C33.5666778,52.5043744 32.9557995,53.613617 31.8948612,53.9209988 C31.7139843,53.9734036 31.5266126,54 31.3382972,54 L2.6617028,54 C1.5571333,54 0.661702805,53.1045695 0.661702805,52 C0.661702805,51.8116846 0.688299176,51.6243129 0.74070397,51.443436 L15.0790012,1.95433401 C15.386383,0.893395645 16.4956256,0.282517358 17.556564,0.589899164 C18.2152102,0.780726338 18.7301717,1.29568777 18.9209988,1.95433401 Z"></path>
+					</g>
+					<g class="slds-illustration__stroke-primary" stroke-width="3">
+					<polygon vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" points="17 0.323943662 34 54 -1.81721305e-12 54"></polygon>
+					<path vector-effect="non-scaling-stroke" d="M17,4.32394366 C17,42.2551731 17,61.6471919 17,62.5 C17,61.6471919 17,42.2551731 17,4.32394366 Z"></path>
+					<path vector-effect="non-scaling-stroke" d="M17,32.3239437 C23.6666667,39.4518278 27,43.1184944 27,43.3239437 C27,43.1184944 23.6666667,39.4518278 17,32.3239437 Z" stroke-linecap="round" stroke-linejoin="round" transform="translate(22.000000, 37.823944) scale(-1, 1) translate(-22.000000, -37.823944) "></path>
+					</g>
+					</g>
+					<g transform="translate(129.000000, 209.000000)" class="slds-illustration__stroke-secondary" stroke-linecap="round" stroke-width="3">
+					<g transform="translate(27.848898, 30.021465) rotate(-15.000000) translate(-27.848898, -30.021465) translate(5.848898, 5.021465)">
+					<path vector-effect="non-scaling-stroke" d="M1.73977935,3.49433365 C1.73977935,3.49433365 11.283937,0.730940796 13.3525511,10.749914" transform="translate(7.546165, 6.947488) rotate(41.000000) translate(-7.546165, -6.947488) "></path>
+					<path vector-effect="non-scaling-stroke" d="M11.1319089,10.2387854 C11.1319089,10.2387854 20.6760665,7.47539254 22.7446806,17.4943658" transform="translate(16.938295, 13.691939) scale(-1, 1) rotate(-41.000000) translate(-16.938295, -13.691939) "></path>
+					<path vector-effect="non-scaling-stroke" d="M19.7302848,42.5865514 C19.7302848,42.5865514 29.2744424,39.8231586 31.3430565,49.8421318"></path>
+					<path vector-effect="non-scaling-stroke" d="M31.7302848,42.5865514 C31.7302848,42.5865514 41.2744424,39.8231586 43.3430565,49.8421318" transform="translate(37.536671, 46.039705) scale(-1, 1) translate(-37.536671, -46.039705) "></path>
+					</g>
+					</g>
+					</g>
+					</g>
+					</g>
+						</svg>
+						<p class="slds-var-p-top_small slds-text-color_error">
+							This record has no geolocation data, so no nearby records can be determined.
+						</p>
+					</div>
+				</template>
+			</template>
+			<template if:false={hasGeolocationField}>
+				<div class="slds-var-p-vertical_medium slds-illustration slds-illustration_small">
+					<!-- prettier-ignore -->
+					<svg class="slds-illustration__svg" viewBox="0 0 424 253" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+				<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+				<g transform="translate(-90.000000, -75.000000)">
+				<g>
+				<g transform="translate(362.500000, 251.000000) scale(-1, 1) translate(-362.500000, -251.000000) translate(212.000000, 176.000000)">
+				<g transform="translate(11.000000, 61.000000)" class="slds-illustration__stroke-secondary" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
+				<path vector-effect="non-scaling-stroke" d="M205.678404,88.7060547 C241.204839,79.6402995 264.385375,73.6529948 275.22001,70.7441406 C284.386465,68.2831552 288.919667,66.3692913 289.659463,63.6132812 C290.231312,61.482937 289.575954,58.5184063 280.531534,56.4824219 C263.69169,53.375 221.886026,49.1894531 211.291014,47.6064453 C200.696003,46.0234375 163.447549,43.4306641 163.531534,32.3076172 C163.615518,21.1845703 191.456338,18.3017578 202.277343,16.6347656 C213.098347,14.9677734 215.910155,12.1396484 215.910155,9.08691406 C215.910155,7.05175781 210.827893,4.38736979 200.66337,1.09375"
+				transform="translate(226.670882, 44.899902) scale(-1, 1) translate(-226.670882, -44.899902) "></path>
+				<path vector-effect="non-scaling-stroke" d="M1.31221526,0.5 C13.3068171,2.21419271 20.5131973,3.86816406 22.9313559,5.46191406 C26.5585938,7.85253906 27.8242188,13.1230469 21.7255859,15.6025391 C17.6598307,17.2555339 12.7158203,18.8808594 6.89355469,20.4785156 C2.33626302,22.3964844 0.0576171875,24.4661458 0.0576171875,26.6875 C0.0576171875,30.0195313 2.96846526,31.8701172 10.9206137,33.125 C18.8727621,34.3798828 78.7253012,39.5429688 83.3229575,39.7568359 C87.9206137,39.9707031 163.017293,45.9052734 190.737997,53.4716797 C218.4587,61.0380859 230.180095,69.3007812 231.721395,75.7050781 C232.748929,79.9746094 231.513997,83.4833984 228.016602,86.2314453"
+				transform="translate(116.064507, 43.365723) scale(-1, 1) translate(-116.064507, -43.365723) "></path>
+				</g>
+				<path vector-effect="non-scaling-stroke" d="M0.96484375,61.5 L241.929687,61.5" class="slds-illustration__stroke-secondary" stroke-width="3" stroke-linecap="round"></path>
+				<polyline vector-effect="non-scaling-stroke" class="slds-illustration__stroke-secondary" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="40 61 113.5 0 171.5 45"></polyline>
+				<polyline vector-effect="non-scaling-stroke" class="slds-illustration__stroke-secondary" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="155 30.9433962 171.5 16 227 60"></polyline>
+				<path vector-effect="non-scaling-stroke" d="M230.968213,39.968973 L234.46647,56.4296875 L228.542446,61.0018357 L223.607422,61.3664012 L229.020498,39.9319979 C229.155728,39.3965247 229.699439,39.0720629 230.234912,39.2072921 C230.604556,39.3006424 230.888959,39.5960527 230.968213,39.968973 Z"
+				class="slds-illustration__fill-secondary" transform="translate(229.036946, 50.271507) scale(-1, 1) translate(-229.036946, -50.271507) "></path>
+				</g>
+				<g transform="translate(129.000000, 130.000000)">
+				<g transform="translate(25.000000, 0.000000)" class="slds-illustration__fill-secondary">
+				<path vector-effect="non-scaling-stroke" d="M24.5,121.514719 L24.5,5 L7.5,0 L7.5,167.671875 C7.48762464,169.600647 6.8735755,171.502553 6,173.377594 C5.1264245,175.252635 2.90714031,177.62677 0,179.5 L32,179.5 C29.1883458,177.694031 27.6521991,175.597198 26.5,174.209503 C25.3478009,172.821808 24.717281,170.944682 24.5,168.578125 L24.5,138.367434 C24.7249438,138.219742 24.4382699,138.047012 24.636039,137.849242 L45.8492424,116.636039 C47.4113396,115.073942 47.4113396,112.541282 45.8492424,110.979185 L43.0208153,108.150758 C41.4587181,106.58866 38.9260582,106.58866 37.363961,108.150758 L24.5,121.514719 Z"></path>
+				</g>
+				<g transform="translate(32.000000, 0.000000)" fill="#FFFFFF">
+				<polygon vector-effect="non-scaling-stroke" points="1.56762695 0.629394531 16.9477539 5.69604492 16.9477539 9.03393555 0.170410156 4.12597656"></polygon>
+				</g>
+				<g>
+				<path vector-effect="non-scaling-stroke" d="M49.5,121.514719 L49.5,5 L32.5,0 L32.5,167.671875 C32.4876246,169.600647 31.8735755,171.502553 31,173.377594 C30.1264245,175.252635 27.9071403,177.62677 25,179.5 L57,179.5 C54.1883458,177.694031 52.6521991,175.597198 51.5,174.209503 C50.3478009,172.821808 49.717281,170.944682 49.5,168.578125 L49.5,138.367434 C49.7249438,138.219742 49.4382699,138.047012 49.636039,137.849242 L70.8492424,116.636039 C72.4113396,115.073942 72.4113396,112.541282 70.8492424,110.979185 L68.0208153,108.150758 C66.4587181,106.58866 63.9260582,106.58866 62.363961,108.150758 L49.5,121.514719 Z"
+				class="slds-illustration__stroke-primary" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+				<path vector-effect="non-scaling-stroke" d="M9,179.5 L81,179.5" class="slds-illustration__stroke-primary" stroke-width="3" stroke-linecap="round"></path>
+				<path vector-effect="non-scaling-stroke" d="M0,179.5 L3,179.5" class="slds-illustration__stroke-primary" stroke-width="3" stroke-linecap="round"></path>
+				<path vector-effect="non-scaling-stroke" d="M57.9821839,168.453786 L60,179 L54,179 L56.0178161,168.453786 C56.1216026,167.911341 56.6454769,167.555738 57.1879221,167.659524 C57.5904065,167.736532 57.9051763,168.051302 57.9821839,168.453786 Z"
+				class="slds-illustration__fill-primary"></path>
+				<path vector-effect="non-scaling-stroke" d="M61.9685597,171.091165 L64,179 L58,179 L60.0314403,171.091165 C60.1688385,170.556245 60.7138607,170.233989 61.2487814,170.371387 C61.6020064,170.462115 61.8778313,170.73794 61.9685597,171.091165 Z"
+				class="slds-illustration__fill-primary"></path>
+				<path vector-effect="non-scaling-stroke" d="M22.9685597,171.091165 L25,179 L19,179 L21.0314403,171.091165 C21.1688385,170.556245 21.7138607,170.233989 22.2487814,170.371387 C22.6020064,170.462115 22.8778313,170.73794 22.9685597,171.091165 Z"
+				class="slds-illustration__fill-primary"></path>
+				</g>
+				</g>
+				<g transform="translate(91.000000, 147.000000)">
+				<g class="slds-illustration__fill-secondary">
+				<path vector-effect="non-scaling-stroke" d="M4,0 L152,0 C154.209139,-1.61026889e-14 156,1.790861 156,4 L156,92 C156,94.209139 154.209139,96 152,96 L4,96 C1.790861,96 2.705415e-16,94.209139 0,92 L0,75.9353173 L5.99999907,73.6003702 L0,71.8894428 L0,67.2234547 L9.99999846,63.907068 L0,59.2127597 L0,4 C-2.705415e-16,1.790861 1.790861,4.05812251e-16 4,0 Z"></path>
+				</g>
+				<g>
+				<polygon vector-effect="non-scaling-stroke" class="slds-illustration__stroke-primary" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="0.5 0.5 156.5 0.5 156.5 96.5 0.5 96.5 0.5 76.4355469 6.5 74.1005859 0.5 72.3896484 0.5 67.7236328 10.5 64.4072266 0.5 59.7128906"></polygon>
+				<path vector-effect="non-scaling-stroke" d="M155,32.5 L0,32.5" class="slds-illustration__stroke-primary" stroke-width="3" stroke-linejoin="round"></path>
+				<path vector-effect="non-scaling-stroke" d="M155,64.5 L9,64.5" class="slds-illustration__stroke-primary" stroke-width="3" stroke-linejoin="round"></path>
+				<circle vector-effect="non-scaling-stroke" class="slds-illustration__fill-primary" cx="146" cy="10" r="3"></circle>
+				<circle vector-effect="non-scaling-stroke" class="slds-illustration__fill-primary" cx="146" cy="86" r="3"></circle>
+				<circle vector-effect="non-scaling-stroke" class="slds-illustration__fill-primary" cx="10" cy="10" r="3"></circle>
+				<circle vector-effect="non-scaling-stroke" class="slds-illustration__fill-primary" cx="10" cy="86" r="3"></circle>
+				</g>
+				<g transform="translate(2.000000, 2.000000)" fill="#FFFFFF">
+				<path vector-effect="non-scaling-stroke" d="M55.8642363,32.9353041 C53.419953,36.6948065 52,41.1815794 52,46 C52,59.254834 62.745166,70 76,70 C80.8184206,70 85.3051935,68.580047 89.0646959,66.1357637 L55.8642363,32.9353041 Z M62.9353041,25.8642363 L96.1357637,59.0646959 C98.580047,55.3051935 100,50.8184206 100,46 C100,32.745166 89.254834,22 76,22 C71.1815794,22 66.6948065,23.419953 62.9353041,25.8642363 Z M76,80 C57.2223185,80 42,64.7776815 42,46 C42,27.2223185 57.2223185,12 76,12 C94.7776815,12 110,27.2223185 110,46 C110,64.7776815 94.7776815,80 76,80 Z"></path>
+				<rect x="0" y="0" width="153" height="3"></rect>
+				</g>
+				</g>
+				<g transform="translate(408.500000, 207.500000)">
+				<g fill="#FFFFFF">
+				<path vector-effect="non-scaling-stroke" d="M18.9209988,1.95433401 L33.259296,51.443436 C33.5666778,52.5043744 32.9557995,53.613617 31.8948612,53.9209988 C31.7139843,53.9734036 31.5266126,54 31.3382972,54 L2.6617028,54 C1.5571333,54 0.661702805,53.1045695 0.661702805,52 C0.661702805,51.8116846 0.688299176,51.6243129 0.74070397,51.443436 L15.0790012,1.95433401 C15.386383,0.893395645 16.4956256,0.282517358 17.556564,0.589899164 C18.2152102,0.780726338 18.7301717,1.29568777 18.9209988,1.95433401 Z"></path>
+				</g>
+				<g class="slds-illustration__stroke-secondary" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
+				<polygon vector-effect="non-scaling-stroke" points="17 0.323943662 34 54 -1.81721305e-12 54"></polygon>
+				<path vector-effect="non-scaling-stroke" d="M17,4.6953125 C17,43.0456294 17,62.6471919 17,63.5 C17,62.6471919 17,43.0456294 17,4.6953125 Z"></path>
+				<path vector-effect="non-scaling-stroke" d="M17,29.3239437 C22.3333333,35.7851611 25,39.1184944 25,39.3239437 C25,39.1184944 22.3333333,35.7851611 17,29.3239437 Z" transform="translate(21.000000, 34.323944) scale(-1, 1) translate(-21.000000, -34.323944) "></path>
+				</g>
+				</g>
+				<g transform="translate(435.000000, 174.500000)">
+				<g transform="translate(1.000000, 0.000000)" fill="#FFFFFF">
+				<path vector-effect="non-scaling-stroke" d="M25.6478873,0 L50.879042,84.4273253 C51.1953215,85.4856452 50.5937789,86.5999782 49.535459,86.9162577 C49.3496374,86.9717906 49.1567264,87 48.9627843,87 L2.33299037,87 C1.22842087,87 0.332990367,86.1045695 0.332990367,85 C0.332990367,84.8060578 0.361199757,84.6131469 0.416732643,84.4273253 L25.6478873,0 Z"></path>
+				</g>
+				<g class="slds-illustration__stroke-secondary" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
+				<polygon vector-effect="non-scaling-stroke" points="26.5 0 52.5 87 0.5 87"></polygon>
+				<path vector-effect="non-scaling-stroke" d="M26.5,3.58642578 C26.5,64.0261034 26.5,94.9972948 26.5,96.5 C26.5,94.9972948 26.5,64.0261034 26.5,3.58642578 Z"></path>
+				<path vector-effect="non-scaling-stroke" d="M16.6478873,37 C22.6478873,41.4120254 25.6478873,43.7453587 25.6478873,44 C25.6478873,43.7453587 22.6478873,41.4120254 16.6478873,37 Z"></path>
+				<path vector-effect="non-scaling-stroke" d="M27.6478873,68 C36.9812207,57.078692 41.6478873,51.7453587 41.6478873,52 C41.6478873,51.7453587 36.9812207,57.078692 27.6478873,68 Z"></path>
+				</g>
+				</g>
+				<g transform="translate(172.000000, 76.000000)" class="slds-illustration__stroke-secondary" stroke-linecap="round" stroke-width="3">
+				<path vector-effect="non-scaling-stroke" d="M44,17.5 L63,17.5 C62.2789714,12.0723971 64.081543,7.53186978 68.4077148,3.87841797 C73.3754883,-0.195556641 79.2734375,0.717773438 82.440918,2.12353516 C85.6083984,3.52929687 87.9606934,5.46069336 89.5913086,9.10524041 C90.2822266,10.6397351 90.7517904,11.9379883 91,13"></path>
+				<path vector-effect="non-scaling-stroke" d="M83,20.5 C84.0558268,16.8461914 86.2227376,14.4572754 89.5007324,13.333252 C94.4177246,11.6472168 99.0800781,13.8925781 100.942383,16.1518555 C102.804687,18.4111328 103.39502,20.2260742 103.746582,22.1201172 C103.980957,23.3828125 104.06543,24.8427734 104,26.5 C108.141764,26.3313802 110.918945,27.1647135 112.331543,29 C114.040039,31.1936035 114.215332,33.817627 113.593018,35.75 C112.970703,37.682373 110.894531,40.5 107,40.5 L28,40.5"></path>
+				<path vector-effect="non-scaling-stroke" d="M18,27.5 L83.0004985,27.5"></path>
+				<path vector-effect="non-scaling-stroke" d="M0,27.5 L8,27.5"></path>
+				</g>
+				<g transform="translate(316.000000, 121.000000)" class="slds-illustration__stroke-secondary" stroke-linecap="round" stroke-width="3">
+				<path vector-effect="non-scaling-stroke" d="M44,17.5 L63,17.5 C62.2789714,12.0723971 64.081543,7.53186978 68.4077148,3.87841797 C73.3754883,-0.195556641 79.2734375,0.717773438 82.440918,2.12353516 C85.6083984,3.52929687 87.9606934,5.46069336 89.5913086,9.10524041 C90.2822266,10.6397351 90.7517904,11.9379883 91,13"></path>
+				<path vector-effect="non-scaling-stroke" d="M83,20.5 C84.0558268,16.8461914 86.2227376,14.4572754 89.5007324,13.333252 C94.4177246,11.6472168 99.0800781,13.8925781 100.942383,16.1518555 C102.804687,18.4111328 103.39502,20.2260742 103.746582,22.1201172 C103.980957,23.3828125 104.06543,24.8427734 104,26.5 C108.141764,26.3313802 110.918945,27.1647135 112.331543,29 C114.040039,31.1936035 114.215332,33.817627 113.593018,35.75 C112.970703,37.682373 110.894531,40.5 107,40.5 L28,40.5"></path>
+				<path vector-effect="non-scaling-stroke" d="M18,27.5 L83.0004985,27.5"></path>
+				<path vector-effect="non-scaling-stroke" d="M0,27.5 L8,27.5"></path>
+				</g>
+				</g>
+				</g>
+				</g>
+					</svg>
+					<p class="slds-var-p-top_small slds-text-color_error">
+						This object has no Geolocation fields.
+					</p>
+				</div>
+			</template>
+		</div>
+	</lightning-card>
+</template>
